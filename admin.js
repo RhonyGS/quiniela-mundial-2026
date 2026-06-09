@@ -28,7 +28,7 @@ const adminPassword = document.getElementById("adminPassword");
 const adminLoginButton = document.getElementById("adminLoginButton");
 const adminLoginMessage = document.getElementById("adminLoginMessage");
 
-const ADMIN_PASSWORD = "Quini26*";
+const ADMIN_PASSWORD = "Qm2026!Denver#Final$WorldCup";
 
 adminLoginButton.addEventListener("click", () => {
     if (adminPassword.value === ADMIN_PASSWORD) {
