@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiniela Mundial 2026</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <nav id="navbar"></nav>
+    <hr>
+
+    <h1>🏆 Quiniela Mundial 2026</h1>
+
+    <div id="predictionForm">
+        <p>Player Name:</p>
+        <input id="playerName" placeholder="Your name">
+
+        <h2>Group Stage Predictions</h2>
+
+        <div id="matchesContainer"></div>
+
+        <section id="third-place-section">
+            <div id="best-third-places-container"></div>
+            <div id="third-place-key-container"></div>
+            <div id="third-place-allocation-container"></div>
+        </section>
+
+        <details open>
+            <summary>Round of 32</summary>
+            <p id="roundOf32Message">
+                Knockout bracket updates automatically as you enter predictions.
+            </p>
+            <div id="roundOf32Container"></div>
+        </details>
+        <br>
+        <details open>
+            <summary>Round of 16</summary>
+            <div id="round-of-16-container"></div>
+        </details>
+
+        <details open>
+            <summary>Quarterfinals</summary>
+            <div id="quarterfinals-container"></div>
+        </details>
+
+        <h2>Semifinals</h2>
+        <div id="semifinals-container"></div>
+
+        <h2>Third Place</h2>
+        <div id="third-place-container"></div>
+
+        <h2>Final</h2>
+        <div id="final-container"></div>
+        <br>
+        <section id="final-results-section">
+            <div id="third-place-result"></div>
+            <div id="champion-result"></div>
+        </section>
+        <br>
+        <button id="submitButton">
+            Submit Predictions
+        </button>
+
+        <p id="result"></p>
+    </div>
+
+    <div id="closedMessage" style="display: none;">
+        <h2>🔒 La quiniela está cerrada</h2>
+        <p>No se aceptan más pronósticos.</p>
+
+        <a href="leaderboard.html">
+            🏆 Ver tabla de posiciones
+        </a>
+    </div>
+
+    <script type="module" src="script.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Panel Admin</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+    <div id="adminLogin">
+        <h1>Admin Access</h1>
+
+        <input id="adminPassword" type="password" placeholder="Enter admin password">
+
+        <button id="adminLoginButton">
+            Enter
+        </button>
+
+        <p id="adminLoginMessage"></p>
+    </div>
+
+    <div id="adminPanel" style="display: none;">
+
+        <nav id="navbar"></nav>
+        <hr>
+        <h1>⚙️ Panel de Administrador</h1>
+        <hr>
+
+        <h2>Estado de la Quiniela</h2>
+        <p id="message"></p>
+        <button id="closePoolButton">
+            🔒 Cerrar Quiniela
+        </button>
+
+        <button id="openPoolButton">
+            🔓 Reabrir Quiniela
+        </button>
+
+        <hr>
+
+        <h2>Setup</h2>
+
+        <button id="uploadMatchesButton">
+            Upload Matches to Firebase
+        </button>
+
+        <h2>Match Results</h2>
+        <div id="adminMatchesContainer"></div>
+
+        <script type="module" src="admin.js"></script>
+    </div>
+</body>
+
+</html>
