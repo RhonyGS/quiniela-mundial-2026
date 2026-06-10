@@ -169,7 +169,7 @@ async function loadNavbar() {
         `;
     } else {
         navbar.innerHTML = `
-            <a href="predictions.html">⚽ Predictions</a> |
+            <a href="index.html">⚽ Predictions</a> |
             <a href="leaderboard.html">🏆 Leaderboard</a>
         `;
     }
