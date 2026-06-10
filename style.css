@@ -529,3 +529,26 @@ button:active {
 .third-place-pr {
     color: white;
 }
+
+.revealed-phase .match-card {
+    max-width: 700px;
+    margin: 14px auto;
+}
+
+.revealed-phase .match-score-row {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    justify-items: center;
+    gap: 12px;
+}
+
+.revealed-phase .team-name {
+    text-align: center;
+}
+
+.revealed-phase .match-score-row strong {
+    min-width: 60px;
+    text-align: center;
+    white-space: nowrap;
+}
