@@ -10,7 +10,7 @@ export const matches = [
         awayGoals: null,
         winner: null,
         finished: false,
-        date: "Thursday 11 June 2026"
+        // date: "Thursday 11 June 2026"
     },
     {
         matchId: "match002",
