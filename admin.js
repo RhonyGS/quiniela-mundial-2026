@@ -164,13 +164,13 @@ async function loadNavbar() {
 
     if (settings.poolClosed === true) {
         navbar.innerHTML = `
-            <a href="leaderboard.html">🏆 Leaderboard</a> |
-            <a href="revealed-picks.html">🔓 Revealed Picks</a>
+            <a href="leaderboard.html${groupQuery}">🏆 Leaderboard</a> |
+            <a href="revealed-picks.html${groupQuery}">🔓 Revealed Picks</a>
         `;
     } else {
         navbar.innerHTML = `
-            <a href="index.html">⚽ Predictions</a> |
-            <a href="leaderboard.html">🏆 Leaderboard</a>
+            <a href="index.html${groupQuery}">⚽ Predictions</a> |
+            <a href="leaderboard.html${groupQuery}">🏆 Leaderboard</a>
         `;
     }
 }

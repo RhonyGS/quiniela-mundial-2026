@@ -8,6 +8,12 @@ import {
     getDoc
 } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
+const urlParams =
+    new URLSearchParams(window.location.search);
+
+const currentGroup =
+    urlParams.get("group")?.toUpperCase();
+
 const firebaseConfig = {
     apiKey: "AIzaSyDShN1-nrnMrVu_60Owg3rxoxHvNAqi0iM",
     authDomain: "quinielamundial2026-bdb50.firebaseapp.com",
@@ -29,13 +35,22 @@ async function loadNavbar() {
     const settingsDoc = await getDoc(doc(db, "settings", "app"));
     const settings = settingsDoc.data();
 
+    const groupQuery =
+        currentGroup
+            ? `?group=${currentGroup}`
+            : "";
+
     if (settings.poolClosed === true) {
         navbar.innerHTML = `
-            <a href="revealed-picks.html">🔓 Revealed Picks</a>
+            <a href="revealed-picks.html${groupQuery}">
+                🔓 Revealed Picks
+            </a>
         `;
     } else {
         navbar.innerHTML = `
-            <a href="index.html">⚽ Predictions</a>
+            <a href="index.html${groupQuery}">
+                ⚽ Predictions
+            </a>
         `;
     }
 }
@@ -132,6 +147,13 @@ async function loadLeaderboard() {
 
     predictionsSnapshot.forEach((doc) => {
         const data = doc.data();
+
+        const playerGroup =
+            (data.groupCode || "DEFAULT").toUpperCase();
+
+        if (currentGroup && playerGroup !== currentGroup) {
+            return;
+        }
 
         let totalPoints = 0;
         let exacts = 0;

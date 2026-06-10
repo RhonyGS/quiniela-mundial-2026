@@ -59,6 +59,12 @@ const thirdPlaceResult =
 const championResult =
     document.getElementById("champion-result");
 
+const urlParams =
+    new URLSearchParams(window.location.search);
+
+const groupFromUrl =
+    urlParams.get("group");
+
 const firebaseConfig = {
     apiKey: "AIzaSyDShN1-nrnMrVu_60Owg3rxoxHvNAqi0iM",
     authDomain: "quinielamundial2026-bdb50.firebaseapp.com",
@@ -80,15 +86,19 @@ const navbar = document.getElementById("navbar");
 async function loadNavbar() {
     const settingsDoc = await getDoc(doc(db, "settings", "app"));
     const settings = settingsDoc.data();
+    const groupQuery =
+        groupFromUrl
+            ? `?group=${groupFromUrl.toUpperCase()}`
+            : "";
 
     if (settings.poolClosed === true) {
         navbar.innerHTML = `
-            <a href="leaderboard.html">🏆 Leaderboard</a> |
-            <a href="revealed-picks.html">🔓 Revealed Picks</a>
+            <a href="leaderboard.html${groupQuery}">🏆 Leaderboard</a> |
+            <a href="revealed-picks.html${groupQuery}">🔓 Revealed Picks</a>
         `;
     } else {
         navbar.innerHTML = `
-            <a href="leaderboard.html">🏆 Leaderboard</a>
+            <a href="leaderboard.html${groupQuery}">🏆 Leaderboard</a>
         `;
     }
 }
@@ -123,22 +133,22 @@ checkPoolStatus();
 const button = document.getElementById("submitButton");
 
 const playerNameInput = document.getElementById("playerName");
-const usaGoalsInput = document.getElementById("usaGoals");
-const mexicoGoalsInput = document.getElementById("mexicoGoals");
-const argentinaGoalsInput = document.getElementById("argentinaGoals");
-const japonGoalsInput = document.getElementById("japonGoals");
-const brasilGoalsInput = document.getElementById("brasilGoals");
-const alemaniaGoalsInput = document.getElementById("alemaniaGoals");
-
-const participantsList = document.getElementById("participantsList");
-
 const resultParagraph = document.getElementById("result");
 
 button.addEventListener("click", async () => {
     const playerName = playerNameInput.value.trim();
+    const groupCode =
+        groupFromUrl?.toUpperCase() || "DEFAULT";
 
     if (playerName === "") {
         resultParagraph.textContent = "Please enter your name.";
+        return;
+    }
+
+    if (!groupCode) {
+        resultParagraph.textContent =
+            "Invalid group link.";
+
         return;
     }
 
@@ -175,7 +185,7 @@ button.addEventListener("click", async () => {
         submitted: true,
 
         predictions: predictions,
-
+        groupCode: groupCode,
         knockoutPredictions: knockoutPredictions,
         knockoutWinners: matchWinners,
         resolvedKnockout: currentResolvedKnockoutMatches,

@@ -10,6 +10,12 @@ import {
 
 import { teams } from "./teams.js";
 
+const urlParams =
+    new URLSearchParams(window.location.search);
+
+const currentGroup =
+    urlParams.get("group")?.toUpperCase();
+
 const firebaseConfig = {
     apiKey: "AIzaSyDShN1-nrnMrVu_60Owg3rxoxHvNAqi0iM",
     authDomain: "quinielamundial2026-bdb50.firebaseapp.com",
@@ -27,8 +33,15 @@ const playerSelect = document.getElementById("playerSelect");
 const predictionsContainer = document.getElementById("predictionsContainer");
 
 function loadNavbar() {
+    const groupQuery =
+        currentGroup
+            ? `?group=${currentGroup}`
+            : "";
+
     navbar.innerHTML = `
-        <a href="leaderboard.html">🏆 Leaderboard</a>
+        <a href="leaderboard.html${groupQuery}">
+            🏆 Leaderboard
+        </a>
     `;
 }
 
@@ -38,14 +51,14 @@ async function checkPoolStatus() {
     const settingsDoc = await getDoc(doc(db, "settings", "app"));
 
     if (!settingsDoc.exists()) {
-        window.location.href = "leaderboard.html";
+        window.location.href = `leaderboard.html${groupQuery}`;
         return;
     }
 
     const settings = settingsDoc.data();
 
     if (settings.poolClosed === false) {
-        window.location.href = "leaderboard.html";
+        window.location.href = `leaderboard.html${groupQuery}`;
     }
 }
 
@@ -55,6 +68,13 @@ async function loadPlayers() {
 
     querySnapshot.forEach((doc) => {
         const data = doc.data();
+
+        const playerGroup =
+            (data.groupCode || "DEFAULT").toUpperCase();
+
+        if (currentGroup && playerGroup !== currentGroup) {
+            return;
+        }
 
         const option = document.createElement("option");
 
