@@ -7,6 +7,7 @@ import {
     setDoc,
     getDoc,
     getDocs,
+    updateDoc,
     collection
 }
     from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
@@ -164,13 +165,13 @@ async function loadNavbar() {
 
     if (settings.poolClosed === true) {
         navbar.innerHTML = `
-            <a href="leaderboard.html${groupQuery}">🏆 Leaderboard</a> |
-            <a href="revealed-picks.html${groupQuery}">🔓 Revealed Picks</a>
+            <a href="leaderboard.html">🏆 Leaderboard</a> |
+            <a href="revealed-picks.html">🔓 Revealed Picks</a>
         `;
     } else {
         navbar.innerHTML = `
-            <a href="index.html${groupQuery}">⚽ Predictions</a> |
-            <a href="leaderboard.html${groupQuery}">🏆 Leaderboard</a>
+            <a href="index.html">⚽ Predictions</a> |
+            <a href="leaderboard.html">🏆 Leaderboard</a>
         `;
     }
 }
@@ -411,3 +412,24 @@ function getRealMatchWinners(allMatches) {
 
     return winners;
 }
+
+
+/////////Provisional
+window.resetResults = async function () {
+    const snapshot = await getDocs(collection(db, "matches"));
+
+    for (const matchDoc of snapshot.docs) {
+        await setDoc(
+            doc(db, "matches", matchDoc.id),
+            {
+                homeGoals: "",
+                awayGoals: "",
+                winner: null,
+                finished: false
+            },
+            { merge: true }
+        );
+    }
+
+    console.log(`Reset completed: ${snapshot.docs.length} matches`);
+};

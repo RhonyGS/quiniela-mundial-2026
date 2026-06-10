@@ -16,6 +16,11 @@ const urlParams =
 const currentGroup =
     urlParams.get("group")?.toUpperCase();
 
+const groupQuery =
+    currentGroup
+        ? `?group=${currentGroup}`
+        : "";
+
 const firebaseConfig = {
     apiKey: "AIzaSyDShN1-nrnMrVu_60Owg3rxoxHvNAqi0iM",
     authDomain: "quinielamundial2026-bdb50.firebaseapp.com",
