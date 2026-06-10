@@ -93,7 +93,7 @@ async function loadNavbar() {
 
     if (settings.poolClosed === true) {
         navbar.innerHTML = `
-            <a href="leaderboard.html${groupQuery}">🏆 Leaderboard</a> |
+            <a href="leaderboard.html${groupQuery}">🏆 Leaderboard</a>
             <a href="revealed-picks.html${groupQuery}">🔓 Revealed Picks</a>
         `;
     } else {
@@ -243,7 +243,10 @@ button.addEventListener("click", async () => {
         });
 
     resultParagraph.textContent =
-        "Predictions submitted successfully.";
+        "Predictions submitted successfully!";
+
+    resultParagraph.className =
+        "success-message";
 });
 
 function getResultType(realHome, realAway, predictedHome, predictedAway) {
@@ -297,6 +300,12 @@ function renderMatches() {
             matchDiv.classList.add("match-card");
 
             matchDiv.innerHTML = `
+                ${match.date ? `
+                <p class="match-date">
+                ${match.date}
+                </p>
+                ` : ""}
+
                 <div class="match-score-row">
 
                     <span class="team-name">
@@ -662,7 +671,7 @@ function renderThirdPlaceSection(
         });
 
     bestContainer.innerHTML = `
-        <h2>Best Third-Placed Teams</h2>
+        <h2 class="best-third-placed-teams">Best Third-Placed Teams</h2>
 
         ${sortedThirdPlaces
             .map((team, index) => {
@@ -694,7 +703,7 @@ function renderThirdPlaceSection(
     `;
 
     keyContainer.innerHTML = `
-        <h3>FIFA Third-Place Pattern</h3>
+        <h3 class="third-place-pattern">FIFA Third-Place Pattern</h3>
         <p class="third-place-key">${thirdPlaceKey || "Waiting for predictions..."}</p>
     `;
 
@@ -1074,16 +1083,20 @@ function renderFinalResults() {
 
     thirdPlaceResult.innerHTML = thirdPlaceTeam
         ? `
-            <h2>🥉 Third Place</h2>
-            <p>${thirdPlaceTeam.flag} ${thirdPlaceTeam.name}</p>
-        `
+        <h2 class="third-place-pr">🥉 Third Place</h2>
+        <p>
+            ${thirdPlaceTeam.flag} ${thirdPlaceTeam.name}
+        </p>
+    `
         : "";
 
     championResult.innerHTML = championTeam
         ? `
-            <h2>🏆 World Champion</h2>
-            <p>${championTeam.flag} ${championTeam.name}</p>
-        `
+        <h2>🏆 World Champion</h2>
+        <p class="podium-team">
+            ${championTeam.flag} ${championTeam.name}
+        </p>
+    `
         : "";
 }
 

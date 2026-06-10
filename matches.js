@@ -9,7 +9,8 @@ export const matches = [
         homeGoals: null,
         awayGoals: null,
         winner: null,
-        finished: false
+        finished: false,
+        date: "Thursday 11 June 2026"
     },
     {
         matchId: "match002",

@@ -218,13 +218,14 @@ function renderFinalResults(knockoutWinners) {
 
     resultsDiv.innerHTML = `
         ${thirdPlaceTeam ? `
-            <h2>🥉 Third Place</h2>
-            <p>${thirdPlaceTeam.flag} ${thirdPlaceTeam.name}</p>
+            <h2 class="third-place-rp">🥉 Third Place</h2>
+            ${thirdPlaceTeam.flag} ${thirdPlaceTeam.name}</p>
         ` : ""}
 
         ${championTeam ? `
-            <h2>🏆 World Champion</h2>
-            <p>${championTeam.flag} ${championTeam.name}</p>
+            <h2 class="world-champ-rp">🏆 World Champion</h2>
+            <p class="podium-team">
+            ${championTeam.flag} ${championTeam.name}</p>
         ` : ""}
     `;
 
