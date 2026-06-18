@@ -133,7 +133,8 @@ uploadMatchesButton.addEventListener("click", async () => {
     for (const match of matches) {
         await setDoc(
             doc(db, "matches", match.matchId),
-            match
+            match,
+            { merge: true }
         );
     }
 
@@ -340,12 +341,12 @@ function renderAdminMatches(matches) {
             await setDoc(
                 doc(db, "matches", match.matchId),
                 {
-                    ...match,
                     homeGoals,
                     awayGoals,
                     winner,
                     finished: true
-                }
+                },
+                { merge: true }
             );
         });
     });

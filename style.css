@@ -431,10 +431,11 @@ summary {
 }
 
 .match-date {
-    font-size: 0.85rem;
+    color: #156fee;
     font-weight: bold;
-    color: #1f3c88;
-    margin-bottom: 6px;
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+    text-align: center;
 }
 
 .match-card {
@@ -452,13 +453,6 @@ summary {
 
 .match-card p {
     margin: 8px 0 0;
-}
-
-.match-date {
-    color: #1f3c88;
-    font-weight: bold;
-    font-size: 0.9rem;
-    margin-bottom: 10px;
 }
 
 .match-score-row {
@@ -551,4 +545,35 @@ button:active {
     min-width: 60px;
     text-align: center;
     white-space: nowrap;
+}
+
+.projected-standings-card {
+    margin: 18px auto;
+    max-width: 650px;
+    background: white;
+    border-radius: 14px;
+    padding: 14px;
+}
+
+.projected-standings-card h3 {
+    text-align: center;
+    margin-bottom: 10px;
+    color: #1f3c88;
+}
+
+.projected-standings-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.projected-standings-table th,
+.projected-standings-table td {
+    padding: 8px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+.projected-standings-table th {
+    background: #1f3c88;
+    color: white;
 }

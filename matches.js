@@ -10,7 +10,7 @@ export const matches = [
         awayGoals: null,
         winner: null,
         finished: false,
-        // date: "Thursday 11 June 2026"
+        date: "Thursday 11 June 2026"
     },
     {
         matchId: "match002",
@@ -21,7 +21,8 @@ export const matches = [
         homeGoals: null,
         awayGoals: null,
         winner: null,
-        finished: false
+        finished: false,
+        date: "Thursday 11 June 2026"
     },
     {
         matchId: "match025",
@@ -32,7 +33,8 @@ export const matches = [
         homeGoals: null,
         awayGoals: null,
         winner: null,
-        finished: false
+        finished: false,
+        date: "Thursday 18 June 2026"
     },
     {
         matchId: "match028",
@@ -43,7 +45,8 @@ export const matches = [
         homeGoals: null,
         awayGoals: null,
         winner: null,
-        finished: false
+        finished: false,
+        date: "Thursday 18 June 2026"
     },
     {
         matchId: "match053",
@@ -54,7 +57,8 @@ export const matches = [
         homeGoals: null,
         awayGoals: null,
         winner: null,
-        finished: false
+        finished: false,
+        date: "Wednesday 24 June 2026"
     },
     {
         matchId: "match054",
@@ -65,7 +69,8 @@ export const matches = [
         homeGoals: null,
         awayGoals: null,
         winner: null,
-        finished: false
+        finished: false,
+        date: "Wednesday 24 June 2026"
     },
 
     // GROUP B
@@ -78,7 +83,8 @@ export const matches = [
         homeGoals: null,
         awayGoals: null,
         winner: null,
-        finished: false
+        finished: false,
+        date: "Friday 12 June 2026"
     },
     {
         matchId: "match008",
@@ -89,7 +95,8 @@ export const matches = [
         homeGoals: null,
         awayGoals: null,
         winner: null,
-        finished: false
+        finished: false,
+        date: "Saturday 13 June 2026"
     },
     {
         matchId: "match026",
@@ -100,7 +107,8 @@ export const matches = [
         homeGoals: null,
         awayGoals: null,
         winner: null,
-        finished: false
+        finished: false,
+        date: "Thursday 18 June 2026"
     },
     {
         matchId: "match027",
@@ -111,7 +119,8 @@ export const matches = [
         homeGoals: null,
         awayGoals: null,
         winner: null,
-        finished: false
+        finished: false,
+        date: "Thursday 18 June 2026"
     },
     {
         matchId: "match051",
@@ -122,7 +131,8 @@ export const matches = [
         homeGoals: null,
         awayGoals: null,
         winner: null,
-        finished: false
+        finished: false,
+        date: "Wednesday 24 June 2026"
     },
     {
         matchId: "match052",
@@ -133,7 +143,8 @@ export const matches = [
         homeGoals: null,
         awayGoals: null,
         winner: null,
-        finished: false
+        finished: false,
+        date: "Wednesday 24 June 2026"
     },
     // GROUP C
     {
@@ -145,7 +156,8 @@ export const matches = [
         homeGoals: null,
         awayGoals: null,
         winner: null,
-        finished: false
+        finished: false,
+        date: "Saturday 13 June 2026"
     },
     {
         matchId: "match005",
@@ -156,7 +168,8 @@ export const matches = [
         homeGoals: null,
         awayGoals: null,
         winner: null,
-        finished: false
+        finished: false,
+        date: "Saturday 13 June 2026"
     },
     {
         matchId: "match030",
@@ -167,7 +180,8 @@ export const matches = [
         homeGoals: null,
         awayGoals: null,
         winner: null,
-        finished: false
+        finished: false,
+        date: "Friday 19 June 2026"
     },
     {
         matchId: "match029",
@@ -178,7 +192,8 @@ export const matches = [
         homeGoals: null,
         awayGoals: null,
         winner: null,
-        finished: false
+        finished: false,
+        date: "Friday 19 June 2026"
     },
     {
         matchId: "match049",
@@ -189,7 +204,8 @@ export const matches = [
         homeGoals: null,
         awayGoals: null,
         winner: null,
-        finished: false
+        finished: false,
+        date: "Wednesday 24 June 2026"
     },
     {
         matchId: "match050",
@@ -200,7 +216,8 @@ export const matches = [
         homeGoals: null,
         awayGoals: null,
         winner: null,
-        finished: false
+        finished: false,
+        date: "Wednesday 24 June 2026"
     },
 
     // GROUP D
@@ -213,7 +230,8 @@ export const matches = [
         homeGoals: null,
         awayGoals: null,
         winner: null,
-        finished: false
+        finished: false,
+        date: "Friday 12 June 2026"
     },
     {
         matchId: "match006",
@@ -224,7 +242,8 @@ export const matches = [
         homeGoals: null,
         awayGoals: null,
         winner: null,
-        finished: false
+        finished: false,
+        date: "Saturday 13 June 2026"
     },
     {
         matchId: "match031",
@@ -235,7 +254,8 @@ export const matches = [
         homeGoals: null,
         awayGoals: null,
         winner: null,
-        finished: false
+        finished: false,
+        date: "Friday 19 June 2026"
     },
     {
         matchId: "match032",
@@ -246,7 +266,8 @@ export const matches = [
         homeGoals: null,
         awayGoals: null,
         winner: null,
-        finished: false
+        finished: false,
+        date: "Friday 19 June 2026"
     },
     {
         matchId: "match059",
@@ -257,7 +278,8 @@ export const matches = [
         homeGoals: null,
         awayGoals: null,
         winner: null,
-        finished: false
+        finished: false,
+        date: "Thursday 25 June 2026"
     },
     {
         matchId: "match060",
@@ -268,7 +290,8 @@ export const matches = [
         homeGoals: null,
         awayGoals: null,
         winner: null,
-        finished: false
+        finished: false,
+        date: "Thursday 25 June 2026"
     },
     // GROUP E
     {
@@ -280,7 +303,8 @@ export const matches = [
         homeGoals: null,
         awayGoals: null,
         winner: null,
-        finished: false
+        finished: false,
+        date: "Thursday 25 June 2026"
     },
     {
         matchId: "match055",
@@ -291,7 +315,8 @@ export const matches = [
         homeGoals: null,
         awayGoals: null,
         winner: null,
-        finished: false
+        finished: false,
+        date: "Thursday 25 June 2026"
     },
     {
         matchId: "match034",
@@ -302,7 +327,8 @@ export const matches = [
         homeGoals: null,
         awayGoals: null,
         winner: null,
-        finished: false
+        finished: false,
+        date: "Saturday 20 June 2026"
     },
     {
         matchId: "match033",
@@ -313,7 +339,8 @@ export const matches = [
         homeGoals: null,
         awayGoals: null,
         winner: null,
-        finished: false
+        finished: false,
+        date: "Saturday 20 June 2026"
     },
     {
         matchId: "match010",
@@ -324,7 +351,8 @@ export const matches = [
         homeGoals: null,
         awayGoals: null,
         winner: null,
-        finished: false
+        finished: false,
+        date: "Sunday 14 June 2026"
     },
     {
         matchId: "match009",
@@ -335,7 +363,8 @@ export const matches = [
         homeGoals: null,
         awayGoals: null,
         winner: null,
-        finished: false
+        finished: false,
+        date: "Sunday 14 June 2026"
     },
 
     // GROUP F
@@ -348,7 +377,8 @@ export const matches = [
         homeGoals: null,
         awayGoals: null,
         winner: null,
-        finished: false
+        finished: false,
+        date: "Saturday 20 June 2026"
     },
     {
         matchId: "match036",
@@ -359,7 +389,8 @@ export const matches = [
         homeGoals: null,
         awayGoals: null,
         winner: null,
-        finished: false
+        finished: false,
+        date: "Saturday 20 June 2026"
     },
     {
         matchId: "match012",
@@ -370,7 +401,8 @@ export const matches = [
         homeGoals: null,
         awayGoals: null,
         winner: null,
-        finished: false
+        finished: false,
+        date: "Sunday 14 June 2026"
     },
     {
         matchId: "match011",
@@ -381,7 +413,8 @@ export const matches = [
         homeGoals: null,
         awayGoals: null,
         winner: null,
-        finished: false
+        finished: false,
+        date: "Sunday 14 June 2026"
     },
     {
         matchId: "match058",
@@ -392,7 +425,8 @@ export const matches = [
         homeGoals: null,
         awayGoals: null,
         winner: null,
-        finished: false
+        finished: false,
+        date: "Thursday 25 June 2026"
     },
     {
         matchId: "match057",
@@ -403,7 +437,8 @@ export const matches = [
         homeGoals: null,
         awayGoals: null,
         winner: null,
-        finished: false
+        finished: false,
+        date: "Thursday 25 June 2026"
     },
     // GROUP G
     {
@@ -415,7 +450,8 @@ export const matches = [
         homeGoals: null,
         awayGoals: null,
         winner: null,
-        finished: false
+        finished: false,
+        date: "Sunday 21 June 2026"
     },
     {
         matchId: "match040",
@@ -426,7 +462,8 @@ export const matches = [
         homeGoals: null,
         awayGoals: null,
         winner: null,
-        finished: false
+        finished: false,
+        date: "Sunday 21 June 2026"
     },
     {
         matchId: "match015",
@@ -437,7 +474,8 @@ export const matches = [
         homeGoals: null,
         awayGoals: null,
         winner: null,
-        finished: false
+        finished: false,
+        date: "Monday 15 June 2026"
     },
     {
         matchId: "match016",
@@ -448,7 +486,8 @@ export const matches = [
         homeGoals: null,
         awayGoals: null,
         winner: null,
-        finished: false
+        finished: false,
+        date: "Monday 15 June 2026"
     },
     {
         matchId: "match064",
@@ -459,7 +498,8 @@ export const matches = [
         homeGoals: null,
         awayGoals: null,
         winner: null,
-        finished: false
+        finished: false,
+        date: "Friday 26 June 2026"
     },
     {
         matchId: "match063",
@@ -470,7 +510,8 @@ export const matches = [
         homeGoals: null,
         awayGoals: null,
         winner: null,
-        finished: false
+        finished: false,
+        date: "Friday 26 June 2026"
     },
 
     // GROUP H
@@ -483,7 +524,8 @@ export const matches = [
         homeGoals: null,
         awayGoals: null,
         winner: null,
-        finished: false
+        finished: false,
+        date: "Friday 26 June 2026"
     },
     {
         matchId: "match065",
@@ -494,7 +536,8 @@ export const matches = [
         homeGoals: null,
         awayGoals: null,
         winner: null,
-        finished: false
+        finished: false,
+        date: "Friday 26 June 2026"
     },
     {
         matchId: "match013",
@@ -505,7 +548,8 @@ export const matches = [
         homeGoals: null,
         awayGoals: null,
         winner: null,
-        finished: false
+        finished: false,
+        date: "Monday 15 June 2026"
     },
     {
         matchId: "match014",
@@ -516,7 +560,8 @@ export const matches = [
         homeGoals: null,
         awayGoals: null,
         winner: null,
-        finished: false
+        finished: false,
+        date: "Monday 15 June 2026"
     },
     {
         matchId: "match038",
@@ -527,7 +572,8 @@ export const matches = [
         homeGoals: null,
         awayGoals: null,
         winner: null,
-        finished: false
+        finished: false,
+        date: "Sunday 21 June 2026"
     },
     {
         matchId: "match037",
@@ -538,7 +584,8 @@ export const matches = [
         homeGoals: null,
         awayGoals: null,
         winner: null,
-        finished: false
+        finished: false,
+        date: "Sunday 21 June 2026"
     },
     // GROUP I
     {
@@ -550,7 +597,8 @@ export const matches = [
         homeGoals: null,
         awayGoals: null,
         winner: null,
-        finished: false
+        finished: false,
+        date: "Friday 26 June 2026"
     },
     {
         matchId: "match062",
@@ -561,7 +609,8 @@ export const matches = [
         homeGoals: null,
         awayGoals: null,
         winner: null,
-        finished: false
+        finished: false,
+        date: "Friday 26 June 2026"
     },
     {
         matchId: "match018",
@@ -572,7 +621,8 @@ export const matches = [
         homeGoals: null,
         awayGoals: null,
         winner: null,
-        finished: false
+        finished: false,
+        date: "Tuesday 16 June 2026"
     },
     {
         matchId: "match017",
@@ -583,7 +633,8 @@ export const matches = [
         homeGoals: null,
         awayGoals: null,
         winner: null,
-        finished: false
+        finished: false,
+        date: "Tuesday 16 June 2026"
     },
     {
         matchId: "match042",
@@ -594,7 +645,8 @@ export const matches = [
         homeGoals: null,
         awayGoals: null,
         winner: null,
-        finished: false
+        finished: false,
+        date: "Monday 22 June 2026"
     },
     {
         matchId: "match041",
@@ -605,7 +657,8 @@ export const matches = [
         homeGoals: null,
         awayGoals: null,
         winner: null,
-        finished: false
+        finished: false,
+        date: "Monday 22 June 2026"
     },
 
     // GROUP J
@@ -618,7 +671,8 @@ export const matches = [
         homeGoals: null,
         awayGoals: null,
         winner: null,
-        finished: false
+        finished: false,
+        date: "Saturday 27 June 2026"
     },
     {
         matchId: "match069",
@@ -629,7 +683,8 @@ export const matches = [
         homeGoals: null,
         awayGoals: null,
         winner: null,
-        finished: false
+        finished: false,
+        date: "Saturday 27 June 2026"
     },
     {
         matchId: "match020",
@@ -640,7 +695,8 @@ export const matches = [
         homeGoals: null,
         awayGoals: null,
         winner: null,
-        finished: false
+        finished: false,
+        date: "Tuesday 16 June 2026"
     },
     {
         matchId: "match019",
@@ -651,7 +707,8 @@ export const matches = [
         homeGoals: null,
         awayGoals: null,
         winner: null,
-        finished: false
+        finished: false,
+        date: "Tuesday 16 June 2026"
     },
     {
         matchId: "match043",
@@ -662,7 +719,8 @@ export const matches = [
         homeGoals: null,
         awayGoals: null,
         winner: null,
-        finished: false
+        finished: false,
+        date: "Monday 22 June 2026"
     },
     {
         matchId: "match044",
@@ -673,7 +731,8 @@ export const matches = [
         homeGoals: null,
         awayGoals: null,
         winner: null,
-        finished: false
+        finished: false,
+        date: "Monday 22 June 2026"
     },
     // GROUP K
     {
@@ -685,7 +744,8 @@ export const matches = [
         homeGoals: null,
         awayGoals: null,
         winner: null,
-        finished: false
+        finished: false,
+        date: "Wednesday 17 June 2026"
     },
     {
         matchId: "match024",
@@ -696,7 +756,8 @@ export const matches = [
         homeGoals: null,
         awayGoals: null,
         winner: null,
-        finished: false
+        finished: false,
+        date: "Wednesday 17 June 2026"
     },
     {
         matchId: "match048",
@@ -707,7 +768,8 @@ export const matches = [
         homeGoals: null,
         awayGoals: null,
         winner: null,
-        finished: false
+        finished: false,
+        date: "Tuesday 23 June 2026"
     },
     {
         matchId: "match047",
@@ -718,7 +780,8 @@ export const matches = [
         homeGoals: null,
         awayGoals: null,
         winner: null,
-        finished: false
+        finished: false,
+        date: "Tuesday 23 June 2026"
     },
     {
         matchId: "match071",
@@ -729,7 +792,8 @@ export const matches = [
         homeGoals: null,
         awayGoals: null,
         winner: null,
-        finished: false
+        finished: false,
+        date: "Saturday 27 June 2026"
     },
     {
         matchId: "match072",
@@ -740,7 +804,8 @@ export const matches = [
         homeGoals: null,
         awayGoals: null,
         winner: null,
-        finished: false
+        finished: false,
+        date: "Saturday 27 June 2026"
     },
 
     // GROUP L
@@ -753,7 +818,8 @@ export const matches = [
         homeGoals: null,
         awayGoals: null,
         winner: null,
-        finished: false
+        finished: false,
+        date: "Saturday 27 June 2026"
     },
     {
         matchId: "match068",
@@ -764,7 +830,8 @@ export const matches = [
         homeGoals: null,
         awayGoals: null,
         winner: null,
-        finished: false
+        finished: false,
+        date: "Saturday 27 June 2026"
     },
     {
         matchId: "match021",
@@ -775,7 +842,8 @@ export const matches = [
         homeGoals: null,
         awayGoals: null,
         winner: null,
-        finished: false
+        finished: false,
+        date: "Wednesday 17 June 2026"
     },
     {
         matchId: "match022",
@@ -786,7 +854,8 @@ export const matches = [
         homeGoals: null,
         awayGoals: null,
         winner: null,
-        finished: false
+        finished: false,
+        date: "Wednesday 17 June 2026"
     },
     {
         matchId: "match045",
@@ -797,7 +866,8 @@ export const matches = [
         homeGoals: null,
         awayGoals: null,
         winner: null,
-        finished: false
+        finished: false,
+        date: "Tuesday 23 June 2026"
     },
     {
         matchId: "match046",
@@ -808,6 +878,7 @@ export const matches = [
         homeGoals: null,
         awayGoals: null,
         winner: null,
-        finished: false
+        finished: false,
+        date: "Tuesday 23 June 2026"
     }
 ];

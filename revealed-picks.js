@@ -10,6 +10,12 @@ import {
 
 import { teams } from "./teams.js";
 
+import { calculateGroupStandings } from "./tournament.js";
+
+import { groups } from "./groups.js";
+
+import { matches } from "./matches.js";
+
 const urlParams =
     new URLSearchParams(window.location.search);
 
@@ -140,6 +146,8 @@ async function showPredictions() {
     </div>
 `;
 
+    renderProjectedStandings(matches, data.predictions);
+
     renderPhase("Group Stage", "GROUP_STAGE", revealedMatches, data, knockoutPredictions);
     renderPhase("Round of 32", "ROUND_OF_32", revealedMatches, data, knockoutPredictions);
     renderPhase("Round of 16", "ROUND_OF_16", revealedMatches, data, knockoutPredictions);
@@ -186,7 +194,13 @@ function renderPhase(title, phase, matches, data, knockoutPredictions) {
         div.classList.add("match-card");
 
         div.innerHTML = `
-            <div class="match-score-row">
+            ${match.date ? `
+                <p class="match-date">
+                    ${match.date}
+                </p>
+                ` : ""}
+
+                <div class="match-score-row">
                 <span class="team-name">
                     ${homeTeam.flag} ${homeTeam.shortName}
                 </span>
@@ -243,3 +257,103 @@ playerSelect.addEventListener("change", showPredictions);
 
 await checkPoolStatus();
 await loadPlayers();
+
+function renderProjectedStandings(matches, predictions) {
+    const section = document.createElement("details");
+    section.classList.add("revealed-phase");
+
+    section.innerHTML = `
+        <summary>📊 Projected Group Standings</summary>
+    `;
+
+    const groupStageMatches =
+        matches.filter((match) => match.phase === "GROUP_STAGE");
+
+    const predictedMatches =
+        groupStageMatches.map((match) => {
+            const prediction =
+                predictions[match.matchId];
+
+            if (!prediction) {
+                return match;
+            }
+
+            return {
+                ...match,
+                homeGoals: prediction.homeGoals,
+                awayGoals: prediction.awayGoals,
+                finished: true
+            };
+        });
+
+    const standingsByGroup = {};
+
+    Object.keys(groups).forEach((group) => {
+        const groupMatches =
+            predictedMatches.filter((match) => {
+                return match.group === group;
+            });
+
+        standingsByGroup[group] =
+            calculateGroupStandings(
+                groups[group],
+                groupMatches
+            );
+    });
+
+    Object.keys(standingsByGroup).forEach((group) => {
+        const groupDiv = document.createElement("div");
+        groupDiv.classList.add("projected-standings-card");
+
+        let rows = "";
+
+        standingsByGroup[group].forEach((team, index) => {
+            const teamInfo = teams[team.team];
+
+            let rowClass = "";
+
+            if (index === 0 || index === 1) {
+                rowClass = "qualified-row";
+            } else if (index === 2) {
+                rowClass = "third-place-row";
+            }
+
+            rows += `
+    <tr class="${rowClass}">
+        <td>${index + 1}</td>
+        <td>
+            ${teamInfo?.flag || ""}
+            ${teamInfo?.shortName || team.team}
+        </td>
+        <td>${team.points}</td>
+        <td>${team.goalDifference}</td>
+        <td>${team.goalsFor}</td>
+    </tr>
+`;
+        });
+
+        groupDiv.innerHTML = `
+            <h3>Group ${group}</h3>
+
+            <table class="projected-standings-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Team</th>
+                        <th>Pts</th>
+                        <th>GD</th>
+                        <th>GF</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    ${rows}
+                </tbody>
+            </table>
+        `;
+
+        section.appendChild(groupDiv);
+    });
+
+    predictionsContainer.appendChild(section);
+}
