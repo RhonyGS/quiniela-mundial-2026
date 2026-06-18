@@ -321,36 +321,50 @@ function renderProjectedStandings(matches, predictions) {
             rows += `
     <tr class="${rowClass}">
         <td>${index + 1}</td>
+
         <td>
             ${teamInfo?.flag || ""}
             ${teamInfo?.shortName || team.team}
         </td>
-        <td>${team.points}</td>
-        <td>${team.goalDifference}</td>
+
+        <td>${team.played}</td>
+        <td>${team.wins}</td>
+        <td>${team.draws}</td>
+        <td>${team.losses}</td>
         <td>${team.goalsFor}</td>
+        <td>${team.goalsAgainst}</td>
+        <td>${team.goalDifference}</td>
+        <td>${team.points}</td>
     </tr>
 `;
         });
 
         groupDiv.innerHTML = `
-            <h3>Group ${group}</h3>
+    <div class="standings-box">
+        <h3>Group ${group}</h3>
 
-            <table class="projected-standings-table">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Team</th>
-                        <th>Pts</th>
-                        <th>GD</th>
-                        <th>GF</th>
-                    </tr>
-                </thead>
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Team</th>
+                    <th>P</th>
+                    <th>W</th>
+                    <th>D</th>
+                    <th>L</th>
+                    <th>GF</th>
+                    <th>GA</th>
+                    <th>GD</th>
+                    <th>Pts</th>
+                </tr>
+            </thead>
 
-                <tbody>
-                    ${rows}
-                </tbody>
-            </table>
-        `;
+            <tbody>
+                ${rows}
+            </tbody>
+        </table>
+    </div>
+`;
 
         section.appendChild(groupDiv);
     });
