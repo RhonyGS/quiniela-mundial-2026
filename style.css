@@ -370,6 +370,12 @@ summary {
         white-space: nowrap;
     }
 
+    .bonus-formula-row {
+        font-size: 0.82rem;
+        padding: 8px 10px;
+        gap: 8px;
+    }
+
 }
 
 #navbar {
@@ -545,5 +551,225 @@ button:active {
 .revealed-phase .match-score-row strong {
     min-width: 60px;
     text-align: center;
+    white-space: nowrap;
+}
+
+.points-breakdown {
+    margin-top: 10px;
+    padding: 12px;
+    background: #f5f5f5;
+    color: black;
+    border-radius: 10px;
+    font-size: 0.9rem;
+}
+
+.points-breakdown p {
+    margin: 5px 0;
+}
+
+.points-breakdown hr {
+    border: none;
+    border-top: 1px solid #ccc;
+    margin: 10px 0;
+}
+
+summary {
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.bonus-details {
+    margin-top: 10px;
+}
+
+.bonus-details h4 {
+    margin: 14px 0 8px;
+    color: #1f3c88;
+    text-align: left;
+}
+
+.bonus-list {
+    display: grid;
+    gap: 6px;
+}
+
+.bonus-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+
+    padding: 8px 10px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    text-align: left;
+}
+
+.bonus-correct {
+    background: #d4edda;
+    color: #155724;
+}
+
+.bonus-wrong {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.bonus-item strong {
+    white-space: nowrap;
+}
+
+.group-bonus-details {
+    margin: 8px 0;
+    background: #eeeeee;
+    border-radius: 8px;
+    padding: 8px;
+}
+
+.group-bonus-details summary {
+    font-weight: bold;
+    cursor: pointer;
+    color: #1f3c88;
+}
+
+.points-summary-card {
+    background: #f5f5f5;
+    color: black;
+    border-radius: 16px;
+    padding: 16px;
+    margin: 18px auto;
+    max-width: 650px;
+    text-align: center;
+}
+
+.match-points {
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    text-align: center;
+}
+
+.points-earned {
+    background: #d4edda;
+    color: #155724;
+}
+
+.points-zero {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.pending-points {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.points-summary-card h2 {
+    color: #1f4fa3;
+}
+
+.score-total-card {
+    background: #f5f5f5;
+    color: black;
+    border-radius: 18px;
+    padding: 18px;
+    margin: 18px auto;
+    max-width: 650px;
+    text-align: center;
+}
+
+.total-points {
+    font-size: 3rem;
+    font-weight: 900;
+    color: #1f3c88;
+    margin: 10px 0;
+}
+
+.score-grid {
+    display: grid;
+    gap: 8px;
+    margin-top: 14px;
+}
+
+.score-grid div {
+    display: flex;
+    justify-content: space-between;
+    background: white;
+    border-radius: 10px;
+    padding: 10px 12px;
+}
+
+.bonus-pending {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.bonus-details {
+    margin: 14px 0;
+}
+
+.bonus-details summary {
+    list-style: none;
+    background: #eef4ff;
+    border: 1px solid #c8d8ff;
+    border-radius: 12px;
+    padding: 12px 14px;
+    cursor: pointer;
+    font-weight: bold;
+    color: #23408e;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.bonus-details summary::-webkit-details-marker {
+    display: none;
+}
+
+.bonus-details summary::before {
+    content: "➕ ";
+}
+
+.bonus-details[open] summary::before {
+    content: "➖ ";
+}
+
+.bonus-details[open]>summary {
+    background: #23408e;
+    color: white;
+}
+
+.bonus-details summary:hover {
+    background: #dce9ff;
+}
+
+.bonus-formula-list {
+    display: grid;
+    gap: 8px;
+    margin: 12px 0;
+}
+
+.bonus-formula-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+
+    background: #f8faff;
+    border: 1px solid #dbe6ff;
+    border-radius: 10px;
+    padding: 10px 12px;
+
+    color: #1f2937;
+    font-size: 0.95rem;
+}
+
+.bonus-formula-row span {
+    font-weight: 600;
+    text-align: left;
+}
+
+.bonus-formula-row strong {
+    color: #23408e;
     white-space: nowrap;
 }

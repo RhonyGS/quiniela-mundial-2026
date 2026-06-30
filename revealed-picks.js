@@ -9,18 +9,25 @@ import {
 } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
 import { teams } from "./teams.js";
-
 import { calculateGroupStandings } from "./tournament.js";
-
 import { groups } from "./groups.js";
-
 import { matches } from "./matches.js";
+import {
+    calculatePoints,
+    calculateBonusPoints,
+    getMatchNumber,
+    getRealWinner,
+    isKnockoutMatch
+} from "./scoring.js";
 
 const urlParams =
     new URLSearchParams(window.location.search);
 
 const currentGroup =
     urlParams.get("group")?.toUpperCase();
+
+const selectedPlayer =
+    urlParams.get("player");
 
 const groupQuery =
     currentGroup
@@ -94,6 +101,14 @@ async function loadPlayers() {
 
         playerSelect.appendChild(option);
     });
+
+    if (selectedPlayer) {
+        playerSelect.value = selectedPlayer;
+
+        if (playerSelect.value === selectedPlayer) {
+            await showPredictions();
+        }
+    }
 }
 
 async function loadMatches() {
@@ -132,6 +147,7 @@ async function showPredictions() {
     const data = playerDoc.data();
     console.log(data.resolvedKnockout);
     const matches = await loadMatches();
+    const bonusBreakdown = calculateBonusPoints(matches, data);
 
     const revealedMatches = [
         ...matches.filter((match) => match.phase === "GROUP_STAGE"),
@@ -139,29 +155,400 @@ async function showPredictions() {
     ];
     const knockoutPredictions = data.knockoutPredictions || {};
     const knockoutWinners = data.knockoutWinners || {};
+    ///
 
+    let matchPoints = 0;
+
+    matches.forEach((match) => {
+        if (match.finished !== true) {
+            return;
+        }
+
+        if (isKnockoutMatch(match)) {
+            const prediction =
+                data.knockoutPredictions?.[match.matchId];
+
+            const predictedResolvedMatch =
+                data.resolvedKnockout?.find((predictedMatch) => {
+                    return predictedMatch.matchId === match.matchId;
+                });
+
+            const correctMatchup =
+                predictedResolvedMatch &&
+                predictedResolvedMatch.homeTeam === match.homeTeam &&
+                predictedResolvedMatch.awayTeam === match.awayTeam;
+
+            if (!prediction || !correctMatchup) {
+                return;
+            }
+
+            const matchNumber =
+                getMatchNumber(match.matchId);
+
+            matchPoints += calculatePoints(
+                match.homeGoals,
+                match.awayGoals,
+                Number(prediction.homeGoals ?? prediction.home),
+                Number(prediction.awayGoals ?? prediction.away),
+                getRealWinner(match),
+                data.knockoutWinners?.[`W${matchNumber}`]
+            );
+
+            return;
+        }
+
+        const prediction =
+            data.predictions?.[match.matchId];
+
+        if (!prediction) {
+            return;
+        }
+
+        matchPoints += calculatePoints(
+            match.homeGoals,
+            match.awayGoals,
+            prediction.homeGoals,
+            prediction.awayGoals
+        );
+    });
+
+    const totalScore =
+        matchPoints + bonusBreakdown.total;
+
+    ///
     predictionsContainer.innerHTML = `
     <div class="player-card">
         👤 ${data.playerName}
     </div>
+
+   <div class="points-summary-card">
+   <div class="score-total-card">
+    <h2>🏆 Total Score</h2>
+
+    <div class="total-points">
+        ${totalScore}
+    </div>
+
+    <div class="score-grid">
+        <div>🎯 Match Points <strong>${matchPoints}</strong></div>
+        <div>🏆 Group Bonus <strong>${bonusBreakdown.groupBonus.points}</strong></div>
+        <div>⚽ Matchup Bonus <strong>${bonusBreakdown.matchupBonus.total}</strong></div>
+        <div>🚀 Progression Bonus <strong>${bonusBreakdown.progressionBonus.total}</strong></div>
+        <div>👑 Champion Bonus <strong>${bonusBreakdown.championBonus.total}</strong></div>
+    </div>
+</div>
+    <h2>📋 Score Breakdown</h2>
+
+    <p>
+        <strong>Total Bonus:</strong>
+        ${bonusBreakdown.total}
+    </p>
+
+    <details class="bonus-details">
+        <summary>
+            🏆 Group Bonus: ${bonusBreakdown.groupBonus.points}
+        </summary>
+
+        <h4>Round of 32 Qualifiers</h4>
+
+        <div class="bonus-list">
+            ${bonusBreakdown.groupBonus.qualifiers.map((item) => {
+        const teamInfo = teams[item.team];
+
+        return `
+                    <div class="bonus-item ${item.correct ? "bonus-correct" : "bonus-wrong"}">
+                        <span>
+                            ${item.correct ? "✅" : "❌"}
+                            ${teamInfo?.flag || ""}
+                            ${teamInfo?.shortName || item.team}
+                        </span>
+
+                        <strong>+${item.points}</strong>
+                    </div>
+                `;
+    }).join("")}
+        </div>
+
+        <h4>Exact Group Positions</h4>
+
+        ${renderPositionsByGroup(
+        bonusBreakdown.groupBonus.positions
+    )}
+    </details>
+
+    <p>
+        <details class="bonus-details">
+    <summary>
+        ⚽ Matchup Bonus: ${bonusBreakdown.matchupBonus.total}
+    </summary>
+
+    <div class="bonus-formula-list">
+    <div class="bonus-formula-row">
+        <span>Round of 32</span>
+        <strong>${bonusBreakdown.matchupBonus.round32} × 2pts = ${bonusBreakdown.matchupBonus.round32 * 2}</strong>
+    </div>
+
+    <div class="bonus-formula-row">
+        <span>Round of 16</span>
+        <strong>${bonusBreakdown.matchupBonus.round16} × 3pts = ${bonusBreakdown.matchupBonus.round16 * 3}</strong>
+    </div>
+
+    <div class="bonus-formula-row">
+        <span>Quarterfinals</span>
+        <strong>${bonusBreakdown.matchupBonus.quarterfinals} × 5pts = ${bonusBreakdown.matchupBonus.quarterfinals * 5}</strong>
+    </div>
+
+    <div class="bonus-formula-row">
+        <span>Semifinals</span>
+        <strong>${bonusBreakdown.matchupBonus.semifinals} × 7pts = ${bonusBreakdown.matchupBonus.semifinals * 7}</strong>
+    </div>
+
+    <div class="bonus-formula-row">
+        <span>Final</span>
+        <strong>${bonusBreakdown.matchupBonus.final} × 10pts = ${bonusBreakdown.matchupBonus.final * 10}</strong>
+    </div>
+</div>
+</details>
+    </p>
+
+    <p>
+        <details class="bonus-details">
+    <summary>
+        🚀 Progression Bonus: ${bonusBreakdown.progressionBonus.total}
+    </summary>
+
+    <div class="bonus-formula-list">
+    <div class="bonus-formula-row">
+        <span>Round of 16 Teams</span>
+        <strong>${bonusBreakdown.progressionBonus.round16} × 3pts = ${bonusBreakdown.progressionBonus.round16 * 3}</strong>
+    </div>
+
+    <div class="bonus-formula-row">
+        <span>Quarterfinalists</span>
+        <strong>${bonusBreakdown.progressionBonus.quarterfinals} × 5pts = ${bonusBreakdown.progressionBonus.quarterfinals * 5}</strong>
+    </div>
+
+    <div class="bonus-formula-row">
+        <span>Semifinalists</span>
+        <strong>${bonusBreakdown.progressionBonus.semifinals} × 8pts = ${bonusBreakdown.progressionBonus.semifinals * 8}</strong>
+    </div>
+
+    <div class="bonus-formula-row">
+        <span>Finalists</span>
+        <strong>${bonusBreakdown.progressionBonus.finalists} × 12pts = ${bonusBreakdown.progressionBonus.finalists * 12}</strong>
+    </div>
+</div>
+</details>
+    </p>
+
+    <p>
+<details class="bonus-details">
+    <summary>
+        👑 Champion Bonus:
+        ${bonusBreakdown.championBonus.total}
+    </summary>
+
+    <div class="bonus-item ${bonusBreakdown.championBonus.pending
+            ? "bonus-pending"
+            : bonusBreakdown.championBonus.correct
+                ? "bonus-correct"
+                : "bonus-wrong"
+        }">
+
+        <span>
+            ${bonusBreakdown.championBonus.pending
+            ? "⏳ Pending"
+            : bonusBreakdown.championBonus.correct
+                ? "✅ Champion predicted correctly"
+                : "❌ Champion prediction"
+        }
+        </span>
+
+        <strong>
+            ${bonusBreakdown.championBonus.pending
+            ? ""
+            : `+${bonusBreakdown.championBonus.total}`
+        }
+        </strong>
+
+    </div>
+
+</details>
+    </p>
+</div>
 `;
 
     renderProjectedStandings(matches, data.predictions);
 
-    renderPhase("Group Stage", "GROUP_STAGE", revealedMatches, data, knockoutPredictions);
-    renderPhase("Round of 32", "ROUND_OF_32", revealedMatches, data, knockoutPredictions);
-    renderPhase("Round of 16", "ROUND_OF_16", revealedMatches, data, knockoutPredictions);
-    renderPhase("Quarterfinals", "QUARTERFINAL", revealedMatches, data, knockoutPredictions);
-    renderPhase("Semifinals", "SEMIFINAL", revealedMatches, data, knockoutPredictions);
-    renderPhase("Third Place Match", "THIRD_PLACE", revealedMatches, data, knockoutPredictions);
-    renderPhase("Final", "FINAL", revealedMatches, data, knockoutPredictions);
+    renderPhase("Group Stage", "GROUP_STAGE", revealedMatches, data, knockoutPredictions, matches);
+    renderPhase("Round of 32", "ROUND_OF_32", revealedMatches, data, knockoutPredictions, matches);
+    renderPhase("Round of 16", "ROUND_OF_16", revealedMatches, data, knockoutPredictions, matches);
+    renderPhase("Quarterfinals", "QUARTERFINAL", revealedMatches, data, knockoutPredictions, matches);
+    renderPhase("Semifinals", "SEMIFINAL", revealedMatches, data, knockoutPredictions, matches);
+    renderPhase("Third Place Match", "THIRD_PLACE", revealedMatches, data, knockoutPredictions, matches);
+    renderPhase("Final", "FINAL", revealedMatches, data, knockoutPredictions, matches);
 
     renderFinalResults(knockoutWinners);
 }
 
 ///
 
-function renderPhase(title, phase, matches, data, knockoutPredictions) {
+function getMatchupBonusValue(phase) {
+    if (phase === "ROUND_OF_32") return 2;
+    if (phase === "ROUND_OF_16") return 3;
+    if (phase === "QUARTERFINAL") return 4;
+    if (phase === "SEMIFINAL") return 5;
+    if (phase === "FINAL") return 6;
+
+    return 0;
+}
+
+function renderMatchPoints(match, prediction, data, realMatches) {
+    const realMatch =
+        realMatches.find((real) => real.matchId === match.matchId);
+
+    if (!realMatch || realMatch.finished !== true) {
+        return `
+            <div class="match-points pending-points">
+                ⏳ Pending
+            </div>
+        `;
+    }
+
+    if (match.phase === "GROUP_STAGE") {
+        const points = calculatePoints(
+            realMatch.homeGoals,
+            realMatch.awayGoals,
+            prediction.homeGoals,
+            prediction.awayGoals
+        );
+
+        let label = "❌ Incorrect";
+
+        if (points === 5) {
+            label = "✅ Exact Score";
+        } else if (points === 3) {
+            label = "✅ Correct Result";
+        }
+
+        return `
+            <div class="match-points ${points > 0 ? "points-earned" : "points-zero"}">
+                <span>${label}</span>
+                <strong>+${points} pts</strong>
+            </div>
+        `;
+    }
+
+    const correctMatchup =
+        match.homeTeam === realMatch.homeTeam &&
+        match.awayTeam === realMatch.awayTeam;
+
+    if (!correctMatchup) {
+        return `
+            <div class="match-points points-zero">
+                <span>❌ Wrong Matchup</span>
+                <strong>+0 pts</strong>
+            </div>
+        `;
+    }
+
+    const matchNumber =
+        getMatchNumber(match.matchId);
+
+    const predictedWinner =
+        data.knockoutWinners?.[`W${matchNumber}`];
+
+    const realWinner =
+        getRealWinner(realMatch);
+
+    const scorePoints = calculatePoints(
+        realMatch.homeGoals,
+        realMatch.awayGoals,
+        Number(prediction.homeGoals ?? prediction.home),
+        Number(prediction.awayGoals ?? prediction.away),
+        realWinner,
+        predictedWinner
+    );
+
+    const matchupBonus =
+        getMatchupBonusValue(match.phase);
+
+    const total =
+        scorePoints + matchupBonus;
+
+    let scoreLabel = "❌ Incorrect Result";
+
+    if (scorePoints === 5) {
+        scoreLabel = "✅ Exact Score";
+    } else if (scorePoints === 3) {
+        scoreLabel = "✅ Correct Winner";
+    }
+
+    return `
+        <div class="match-points ${total > 0 ? "points-earned" : "points-zero"}">
+            <div>
+                ✅ Correct Matchup +${matchupBonus}
+            </div>
+
+            <div>
+                ${scoreLabel} +${scorePoints}
+            </div>
+
+            <strong>Total: +${total} pts</strong>
+        </div>
+    `;
+}
+///
+
+function getOrdinal(position) {
+    if (position === 1) return "1st";
+    if (position === 2) return "2nd";
+    if (position === 3) return "3rd";
+
+    return `${position}th`;
+}
+
+function renderPositionsByGroup(positions) {
+    const positionsByGroup = {};
+
+    positions.forEach((item) => {
+        if (!positionsByGroup[item.group]) {
+            positionsByGroup[item.group] = [];
+        }
+
+        positionsByGroup[item.group].push(item);
+    });
+
+    return Object.keys(positionsByGroup).map((group) => {
+        return `
+            <details class="group-bonus-details">
+                <summary>Group ${group}</summary>
+
+                <div class="bonus-list">
+                    ${positionsByGroup[group].map((item) => {
+            const teamInfo = teams[item.team];
+
+            return `
+                            <div class="bonus-item ${item.correct ? "bonus-correct" : "bonus-wrong"}">
+                                <span>
+                                    ${item.correct ? "✅" : "❌"}
+                                    ${teamInfo?.flag || ""}
+                                    ${teamInfo?.shortName || item.team}
+                                    · ${getOrdinal(item.position)}
+                                </span>
+
+                                <strong>+${item.points}</strong>
+                            </div>
+                        `;
+        }).join("")}
+                </div>
+            </details>
+        `;
+    }).join("");
+}
+
+///
+function renderPhase(title, phase, matches, data, knockoutPredictions, realMatches) {
     const phaseMatches =
         matches.filter((match) => match.phase === phase);
 
@@ -217,6 +604,7 @@ function renderPhase(title, phase, matches, data, knockoutPredictions) {
             </div>
 
             <p>${homeTeam.name} vs ${awayTeam.name}</p>
+            ${renderMatchPoints(match, prediction, data, realMatches)}
         `;
 
         section.appendChild(div);

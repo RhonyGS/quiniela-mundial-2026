@@ -341,6 +341,8 @@ function renderAdminMatches(matches) {
             await setDoc(
                 doc(db, "matches", match.matchId),
                 {
+                    homeTeam: match.homeTeam,
+                    awayTeam: match.awayTeam,
                     homeGoals,
                     awayGoals,
                     winner,

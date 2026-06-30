@@ -8,6 +8,17 @@ import {
     getDoc
 } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
+import { groups } from "./groups.js";
+import { teams } from "./teams.js";
+import { calculateGroupStandings } from "./tournament.js";
+import {
+    calculatePoints,
+    getMatchNumber,
+    isKnockoutMatch,
+    getRealWinner,
+    calculateBonusPoints
+} from "./scoring.js";
+
 const urlParams =
     new URLSearchParams(window.location.search);
 
@@ -57,74 +68,6 @@ async function loadNavbar() {
 
 loadNavbar();
 
-
-//Calculo de puntaje
-function calculatePoints(
-    realHome,
-    realAway,
-    predictedHome,
-    predictedAway,
-    realWinner = null,
-    predictedWinner = null
-) {
-    if (
-        realHome === predictedHome &&
-        realAway === predictedAway
-    ) {
-        return 5;
-    }
-
-    if (
-        realWinner &&
-        predictedWinner &&
-        realWinner === predictedWinner
-    ) {
-        return 3;
-    }
-
-    const realHomeWins = realHome > realAway;
-    const realAwayWins = realAway > realHome;
-    const realDraw = realHome === realAway;
-
-    const predictedHomeWins = predictedHome > predictedAway;
-    const predictedAwayWins = predictedAway > predictedHome;
-    const predictedDraw = predictedHome === predictedAway;
-
-    if (
-        realHomeWins === predictedHomeWins &&
-        realAwayWins === predictedAwayWins &&
-        realDraw === predictedDraw
-    ) {
-        return 3;
-    }
-
-    return 0;
-}
-
-function getMatchNumber(matchId) {
-    return Number(matchId.replace("match", ""));
-}
-
-function isKnockoutMatch(match) {
-    return match.phase !== "GROUP_STAGE";
-}
-
-function getRealWinner(match) {
-    if (match.winner) {
-        return match.winner;
-    }
-
-    if (match.homeGoals > match.awayGoals) {
-        return match.homeTeam;
-    }
-
-    if (match.awayGoals > match.homeGoals) {
-        return match.awayTeam;
-    }
-
-    return null;
-}
-
 async function loadMatches() {
     const snapshot = await getDocs(collection(db, "matches"));
 
@@ -135,6 +78,53 @@ async function loadMatches() {
     });
 
     return matches;
+}
+
+function getOrdinal(position) {
+    if (position === 1) return "1st";
+    if (position === 2) return "2nd";
+    if (position === 3) return "3rd";
+
+    return `${position}th`;
+}
+
+function renderPositionsByGroup(positions) {
+    const positionsByGroup = {};
+
+    positions.forEach((item) => {
+        if (!positionsByGroup[item.group]) {
+            positionsByGroup[item.group] = [];
+        }
+
+        positionsByGroup[item.group].push(item);
+    });
+
+    return Object.keys(positionsByGroup).map((group) => {
+        return `
+            <details class="group-bonus-details">
+                <summary>Group ${group}</summary>
+
+                <div class="bonus-list">
+                    ${positionsByGroup[group].map((item) => {
+            const teamInfo = teams[item.team];
+
+            return `
+                            <div class="bonus-item ${item.correct ? "bonus-correct" : "bonus-wrong"}">
+                                <span>
+                                    ${item.correct ? "✅" : "❌"}
+                                    ${teamInfo?.flag || ""}
+                                    ${teamInfo?.shortName || item.team}
+                                    · ${getOrdinal(item.position)}
+                                </span>
+
+                                <strong>+${item.points}</strong>
+                            </div>
+                        `;
+        }).join("")}
+                </div>
+            </details>
+        `;
+    }).join("");
 }
 
 async function loadLeaderboard() {
@@ -168,6 +158,20 @@ async function loadLeaderboard() {
                 const knockoutPrediction =
                     data.knockoutPredictions?.[match.matchId];
 
+                const predictedResolvedMatch =
+                    data.resolvedKnockout?.find((predictedMatch) => {
+                        return predictedMatch.matchId === match.matchId;
+                    });
+
+                const correctMatchup =
+                    predictedResolvedMatch &&
+                    predictedResolvedMatch.homeTeam === match.homeTeam &&
+                    predictedResolvedMatch.awayTeam === match.awayTeam;
+
+                if (!correctMatchup) {
+                    return;
+                }
+
                 const matchNumber =
                     getMatchNumber(match.matchId);
 
@@ -198,14 +202,6 @@ async function loadLeaderboard() {
                     hits++;
                 }
 
-                if (
-                    match.matchId === "match104" &&
-                    realWinner &&
-                    predictedWinner === realWinner
-                ) {
-                    totalPoints += 10;
-                }
-
                 return;
             }
 
@@ -232,11 +228,17 @@ async function loadLeaderboard() {
             }
         });
 
+        const bonusBreakdown =
+            calculateBonusPoints(matches, data);
+
+        totalPoints += bonusBreakdown.total;
+
         leaderboardData.push({
             playerName: data.playerName,
             points: totalPoints,
             exacts: exacts,
-            hits: hits
+            hits: hits,
+            bonusBreakdown: bonusBreakdown
         });
     });
 
@@ -256,12 +258,16 @@ async function loadLeaderboard() {
         if (index === 2) { medal = "🥉", tr.classList.add("bronze-row"); }
 
         tr.innerHTML = `
-        <td>${medal || index + 1}</td>
-        <td>${player.playerName}</td>
-        <td>${player.points}</td>
-        <td>${player.exacts}</td>
-        <td>${player.hits}</td>
-    `;
+    <td>${medal || index + 1}</td>
+    <td>
+    <a href="revealed-picks.html?group=${currentGroup}&player=${encodeURIComponent(player.playerName)}">
+        ${player.playerName}
+    </a>
+</td>
+    <td>${player.points}</td>
+    <td>${player.exacts}</td>
+    <td>${player.hits}</td>
+`;
 
         leaderboard.appendChild(tr);
     });
